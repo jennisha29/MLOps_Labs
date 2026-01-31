@@ -1,4 +1,5 @@
-name: Python Unittests
+name: Testing Github Lab1 Python Unittests
+run-name: Unittest
 
 on:
   push:
