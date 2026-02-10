@@ -1,7 +1,13 @@
 .DS_Store
 __pycache__/
-env_lab01/
-env/
-venv/
 *.pyc
 .pytest_cache/
+env/
+venv/
+env_lab01/
+# artifacts
+.env
+logs/
+config/
+plugins/
+airflow.db

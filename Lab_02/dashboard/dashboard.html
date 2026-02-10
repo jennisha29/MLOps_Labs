@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Airflow Lab 01 - Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { margin-bottom: 5px; }
+    section { margin: 20px 0; }
+    img { width: 100%; max-width: 900px; border: 1px solid #ddd; }
+    ul { margin-top: 10px; }
+  </style>
+</head>
+
+<body>
+
+  <h1>Airflow Lab 01 – Dashboard</h1>
+
+  <section>
+    <p>
+      This lab demonstrates how Apache Airflow can be used to run a complete machine
+      learning workflow step by step.
+    </p>
+  </section>
+
+  <section>
+    <h3>What was done in this lab:</h3>
+    <ul>
+      <li>Built an Airflow DAG to run the entire workflow step by step</li>
+      <li>Loaded the e-commerce customer dataset as the first task</li>
+      <li>Cleaned and scaled the data for clustering</li>
+      <li>Trained a KMeans model and used the elbow method to find the best number of clusters</li>
+      <li>Saved the trained model and clustering results</li>
+      <li>Generated visual outputs like the elbow curve and cluster scatter plot</li>
+    </ul>
+  </section>
+
+  <!-- Outputs -->
+  <section>
+    <h3>Elbow Curve</h3>
+    <img src="../dags/working_data/elbow_curve.png" alt="Elbow Curve">
+  </section>
+
+  <section>
+    <h3>Cluster Visualization</h3>
+    <img src="../dags/working_data/cluster_scatter.png" alt="Cluster Scatter Plot">
+  </section>
+
+</body>
+</html>
