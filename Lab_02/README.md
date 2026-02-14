@@ -6,14 +6,14 @@ The pipeline loads e-commerce customer data, preprocesses it, trains a K-Means c
 
 ## Dataset
 
-- **ecommerce_customers.csv** — training data with 8,950 customers
+- **ecommerce_customers.csv** — training data with 8,950 user transaction records
 - **test_ecommerce.csv** — small test file with 2 rows
 - **Features used:** `TOTAL_SPEND`, `BROWSE_SESSIONS`, `LOYALTY_POINTS`
 
 **Prerequisites**
 
-Docker Desktop installed and running (at least 4 GB RAM allocated)
-Port 8080
+- Docker Desktop installed and running (at least 4 GB RAM allocated)
+- Port 8080
 
 ## Steps to Re-Run the Lab
 
