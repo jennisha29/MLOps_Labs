@@ -21,8 +21,6 @@ docker --version
 cd Lab_03
 ```
 
-> If you see `cd: no such file or directory`, you are already inside Lab_03. Skip this step.
-
 ---
 
 ## 3. Build the Docker Image
