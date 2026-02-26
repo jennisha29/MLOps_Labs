@@ -9,5 +9,4 @@ COPY src/ /app/src/
 COPY test/ /app/test/
 
 RUN mkdir -p /app/data
-
 CMD ["python", "src/main.py"]

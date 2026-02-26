@@ -1,7 +1,7 @@
 # Lab_03 — Docker
 
 A machine learning pipeline that trains a **Gradient Boosting Regressor** on the
-California Housing dataset to predict median house prices — built and run entirely
+California Housing dataset to predict median house prices, built and run entirely
 inside a Docker container.
 
 ---
