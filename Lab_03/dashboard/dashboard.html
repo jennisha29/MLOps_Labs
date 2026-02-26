@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab 03 — California Housing</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f7f5f0;
+      --surface:  #ffffff;
+      --ink:      #1a1a18;
+      --muted:    #6b6b63;
+      --accent:   #c84b31;
+      --accent2:  #2a6496;
+      --border:   #e5e2da;
+      --bar:      #c84b31;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 48px 32px;
+    }
+
+    header {
+      max-width: 860px;
+      margin: 0 auto 40px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 20px;
+    }
+
+    header .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.6rem;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .main {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .card.wide { grid-column: 1 / -1; }
+
+    .card h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .metric .label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .metric .value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .metric .value.accent { color: var(--accent); }
+
+    .summary-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .summary-text strong { color: var(--ink); }
+
+    .fi-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 64px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateX(-8px);
+      animation: slideIn 0.4s forwards;
+    }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .fi-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .track {
+      height: 8px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      background: var(--bar);
+      border-radius: 99px;
+      width: 0;
+      transition: width 0.8s cubic-bezier(.4,0,.2,1);
+    }
+
+    .fi-pct {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--ink);
+    }
+
+    .pill span { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="eyebrow">Lab 03 · MLOps · Docker</div>
+    <h1>California Housing<br>Price Predictor</h1>
+    <p>
+      A Gradient Boosting model trained on 20,640 California census districts
+      to predict median house prices. Built and run entirely inside a Docker container.
+    </p>
+  </header>
+
+  <div class="main">
+
+    <div class="card">
+      <h2>Model Metrics</h2>
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="label">R² Score</div>
+          <div class="value accent" id="r2">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">MSE</div>
+          <div class="value" id="mse">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Train Rows</div>
+          <div class="value" id="train">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Test Rows</div>
+          <div class="value" id="test">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Summary</h2>
+      <p class="summary-text" id="summary">Loading...</p>
+      <div class="pills" id="pills" style="margin-top:20px;"></div>
+    </div>
+
+    <div class="card wide">
+      <h2>Feature Importance — what drives house prices</h2>
+      <div id="fi">Loading...</div>
+    </div>
+
+  </div>
+
+  <script>
+    async function load(path) {
+      const res = await fetch(path, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Could not load ${path}`);
+      return res.json();
+    }
+
+    function renderSummary(m) {
+      const r2pct = (m.r2 * 100).toFixed(1);
+      document.getElementById("summary").innerHTML =
+        `The model is a <strong>Gradient Boosting Regressor</strong> trained on the
+        <strong>California Housing</strong> dataset. It correctly explains
+        <strong>${r2pct}% of the variation</strong> in house prices across
+        ${(m.train_rows + m.test_rows).toLocaleString()} districts.
+        With an MSE of <strong>${m.mse.toFixed(4)}</strong>, predictions are
+        reasonably close to real prices. The most important predictor by far
+        is <strong>median income</strong> — where people earn more, houses cost more.`;
+
+      document.getElementById("pills").innerHTML = [
+        ["Dataset", m.dataset],
+        ["Model",   m.model],
+        ["Features", m.features],
+      ].map(([k, v]) => `<div class="pill">${k}: <span>${v}</span></div>`).join("");
+    }
+
+    function renderMetrics(m) {
+      document.getElementById("r2").textContent   = m.r2.toFixed(4);
+      document.getElementById("mse").textContent  = m.mse.toFixed(4);
+      document.getElementById("train").textContent = m.train_rows.toLocaleString();
+      document.getElementById("test").textContent  = m.test_rows.toLocaleString();
+    }
+
+    function renderFI(fi) {
+      const max   = Math.max(...fi.map(x => x.importance), 0);
+      const total = fi.reduce((s, x) => s + x.importance, 0);
+      document.getElementById("fi").innerHTML = fi.map((f, i) => `
+        <div class="fi-row" style="animation-delay:${i * 60}ms">
+          <div class="fi-name">${f.feature}</div>
+          <div class="track"><div class="fill" data-w="${(f.importance / max * 100).toFixed(1)}"></div></div>
+          <div class="fi-pct">${(f.importance / total * 100).toFixed(1)}%</div>
+        </div>`).join("");
+
+      // bars
+      requestAnimationFrame(() =>
+        document.querySelectorAll(".fill").forEach(el =>
+          el.style.width = el.dataset.w + "%"
+        )
+      );
+    }
+
+    async function main() {
+      try {
+        const [metrics, fi] = await Promise.all([
+          load("../data/metrics.json"),
+          load("../data/feature_importance.json")
+        ]);
+        renderMetrics(metrics);
+        renderSummary(metrics);
+        renderFI(fi);
+      } catch (e) {
+        document.querySelector(".main").innerHTML =
+          `<div class="card wide" style="color:#c84b31;">
+            <b>Could not load data.</b> Run the Docker container first, then open
+            this file using a local server — not file://.
+            <br><br><code>python3 -m http.server 8000</code>
+            <br>Then visit: <code>http://localhost:8000/dashboard/dashboard.html</code>
+           </div>`;
+      }
+    }
+
+    main();
+  </script>
+
+</body>
+</html>

@@ -11,3 +11,5 @@ logs/
 config/
 plugins/
 airflow.db
+Lab_03/my_image.tar
+Lab_03/data/
