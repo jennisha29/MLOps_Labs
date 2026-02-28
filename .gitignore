@@ -5,6 +5,7 @@ __pycache__/
 env/
 venv/
 env_lab01/
+
 # artifacts
 .env
 logs/
@@ -13,3 +14,6 @@ plugins/
 airflow.db
 Lab_03/my_image.tar
 Lab_03/data/
+
+*.keras
+*.pkl

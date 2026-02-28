@@ -1,6 +1,6 @@
 # Lab03_Flask — Flask + TensorFlow
 
-This lab trains a neural network on the Iris dataset and deploys it as a web app using Flask and Docker Compose. Enter the flower measurements in the browser and get the predicted species with a confidence score.
+Training a neural network on the Iris dataset and deploying it as a web app using Flask and Docker Compose. Enter the flower measurements in the browser and get the predicted species with a confidence score.
 
 ---
 
