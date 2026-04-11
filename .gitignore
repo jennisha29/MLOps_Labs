@@ -33,3 +33,7 @@ Lab_05/wandb/
 Lab_05/artifacts/
 Lab_05/checkpoints/
 Lab_05/letter-recognition.data
+
+# Lab 06 runtime files
+Lab_06/test_env/
+Lab_06/app/__pycache__/

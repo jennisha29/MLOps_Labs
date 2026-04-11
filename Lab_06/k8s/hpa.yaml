@@ -1,0 +1,22 @@
+# HorizontalPodAutoscaler for the Sentiment Analysis API
+# Automatically scales pods between 3–5 based on CPU usage.
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  namespace: sentiment-serving
+  name: sentiment-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sentiment-api
+  minReplicas: 3
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

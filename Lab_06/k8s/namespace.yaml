@@ -1,0 +1,10 @@
+# Namespace for the sentiment-analysis serving workload
+# isolates all the model related resources from the other cluster workloads.
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sentiment-serving
+  labels:
+    env: lab
+    owner: jennisha

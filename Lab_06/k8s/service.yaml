@@ -1,0 +1,14 @@
+# Service to expose the Sentiment Analysis API via a LoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sentiment-serving
+  name: sentiment-api-service
+spec:
+  selector:
+    app: sentiment-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
